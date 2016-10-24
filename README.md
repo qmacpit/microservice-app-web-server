@@ -12,5 +12,5 @@ docker build -t microservice-app/web:0.0.1 .
 ### run web app
 
 ```
-docker run --name web -d -p 3000:3000 microservice-app/web:0.0.1
+ docker run --name web -d --link mongo-db:mongo-db -p 3000:3000 microservice-app/web:0.0.1
 ```

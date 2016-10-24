@@ -5,7 +5,9 @@ const express = require('express');
 const PORT = 3000;
 const app = express();
 
-const MONGO_IP = process.env.MONGO_IP || 'localhost';
+//if web container is linked with mongo-db MONGO_DB_NAME will be set
+//in order to communicated with mongodb we use 'mongo-db' alias added by docker link
+const MONGO_IP = process.env.MONGO_DB_NAME ? 'mongo-db' : 'localhost';
 
 app.listen(PORT, function () {
 
@@ -16,5 +18,12 @@ app.listen(PORT, function () {
   .then(() => db_state = 'db connected')
   .fail(() => db_state = 'db conneciton error')
 
-  app.get('/', (req, res) => res.send(`db state: ${db_state} ${Date.now()} `))
+  app.get('/', (req, res) => {
+    const conf = {
+      time: Date.now(),
+      db_state: db_state,
+      db_ip: MONGO_IP
+    };
+    res.send(conf);
+  })
 });
