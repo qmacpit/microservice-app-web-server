@@ -34,3 +34,7 @@ docker-compose up
 docker-compose build web
 docker-compose up --no-deps -d web
 ```
+### scale web services
+```
+docker-compose scale web=2
+```
